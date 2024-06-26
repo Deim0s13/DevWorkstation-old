@@ -1,13 +1,13 @@
 ---
 - name: Ensure all packages are up to date
-  yum:
+  ansible.builtin.dnf:
     name: "*"
-    state: latest
+    state: present
   notify:
     - Reboot if needed
 
 - name: Install basic packages
-  yum:
+  ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
   with_items:
@@ -18,43 +18,43 @@
     - htop
 
 - name: Ensure SELinux is installed
-  yum:
+  ansible.builtin.dnf:
     name: libselinux
     state: present
 
 - name: Ensure SELinux is enforcing
-  selinux:
+  ansible.posix.selinux:
     policy: targeted
     state: enforcing
 
 - name: Install firewalld
-  yum:
+  ansible.builtin.dnf:
     name: firewalld
     state: present
 
 - name: Ensure firewalld is started and enabled
-  service:
+  ansible.builtin.service:
     name: firewalld
     state: started
-    enabled: yes
+    enabled: true
 
-- name: Open HTTP and HTPPS ports
-  firewalld:
+- name: Open HTTP and HTTPS ports
+  ansible.posix.firewalld:
     service: "{{ item }}"
-    permanent: yes
+    permanent: true
     state: enabled
-    immediate: yes
+    immediate: true
   with_items:
     - http
     - https
 
 - name: Open SSH port
-  firewalld:
+  ansible.posix.firewalld:
     port: 22/tcp
-    permanent: yes
+    permanent: true
     state: enabled
-    immediate: yes
+    immediate: true
 
 - name: Reload firewalld to apply changes
-  firewalld:
+  ansible.posix.firewalld:
     state: reloaded
