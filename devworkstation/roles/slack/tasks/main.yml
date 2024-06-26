@@ -1,10 +1,11 @@
 ---
 - name: Download Slack RPM
-  get_url:
+  ansible.builtin.get_url:
     url: https://downloads.slack-edge.com/linux_releases/slack-4.26.1-0.1.fc21.x86_64.rpm
     dest: /tmp/slack.rpm
+    mode: '0644'
 
 - name: Install Slack
-  yum:
+  ansible.builtin.dnf:
     name: /tmp/slack.rpm
     state: present
