@@ -9,7 +9,7 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
   with_items:
-    - { name: 'user.name', value '{{ git_user_name }}' }
+    - { name: 'user.name', value: '{{ git_user_name }}' }
     - { name: 'user.email', value: '{{ git_user_email }}' }
 
 - name: Generate SSH key for Git

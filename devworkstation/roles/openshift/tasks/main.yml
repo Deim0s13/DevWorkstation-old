@@ -12,7 +12,7 @@
     creates: /usr/local/bin/oc
 
 - name: Ensure oc binary is executable
-    file:
-      path: /usr/local/bin/oc
-      mode: '0755'
-      state: file
+  file:
+    path: /usr/local/bin/oc
+    mode: '0755'
+    state: file
