@@ -1,0 +1,11 @@
+---
+- name: Install Podman
+  yum:
+    name: podman
+    state: present
+
+- name: Enable and start Podman service
+  systemd:
+    name: podman
+    state: started
+    enabled: yes

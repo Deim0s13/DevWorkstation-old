@@ -1,0 +1,18 @@
+---
+- name: Install Git
+  yum:
+    name: Git
+    state: present
+
+- name: Configure Git username and email
+  git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { name: 'user.name', value '{{ git_user_name }}' }
+    - { name: 'user.email', value: '{{ git_user_email }}' }
+
+- name: Generate SSH key for Git
+  command: ssh-keygen -t rsa -b 4096 -C "{{ git_user_email }}" -f /home/{{ ansible_user_id }}/.ssh/id_rsa -N ""
+  args:
+    creates: /home/{{ ansible_user_id }}/.ssh/id_rsa

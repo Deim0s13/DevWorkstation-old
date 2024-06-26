@@ -1,0 +1,60 @@
+---
+- name: Ensure all packages are up to date
+  yum:
+    name: "*"
+    state: latest
+  notify:
+    - Reboot if needed
+
+- name: Install basic packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - vim
+    - zsh
+    - curl
+    - wget
+    - htop
+
+- name: Ensure SELinux is installed
+  yum:
+    name: libselinux
+    state: present
+
+- name: Ensure SELinux is enforcing
+  selinux:
+    policy: targeted
+    state: enforcing
+
+- name: Install firewalld
+  yum:
+    name: firewalld
+    state: present
+
+- name: Ensure firewalld is started and enabled
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Open HTTP and HTPPS ports
+  firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  with_items:
+    - http
+    - https
+
+- name: Open SSH port
+  firewalld:
+    port: 22/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Reload firewalld to apply changes
+  firewalld:
+    state: reloaded
