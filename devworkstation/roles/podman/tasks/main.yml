@@ -1,11 +1,11 @@
 ---
 - name: Install Podman
-  yum:
+  ansible.builtin.dnf:
     name: podman
     state: present
 
 - name: Enable and start Podman service
-  systemd:
+  ansible.builtin.systemd:
     name: podman
     state: started
-    enabled: yes
+    enabled: true
