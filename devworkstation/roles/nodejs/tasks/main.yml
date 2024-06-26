@@ -1,8 +1,20 @@
 ---
+- name: Add NodeSource repository GPG key
+  ansible.builtin.get_url:
+    url: https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+    dest: /etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+    mode: '0644'
+
 - name: Add NodeSource repository
-  shell: curl -sL https://rpm.nodesource.com/setup_14.x | bash -
+  ansible.builtin.dnf_repository:
+    name: nodesource
+    description: Node.js Packages for Enterprise Linux
+    baseurl: https://rpm.nodesource.com/pub_14.x/el/$releasever/$basearch
+    gpgkey: file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+    enabled: true
+    gpgcheck: true
 
 - name: Install Node.js
-  yum:
+  ansible.builtin.dnf:
     name: nodejs
     state: present
