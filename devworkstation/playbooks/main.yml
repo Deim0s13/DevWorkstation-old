@@ -1,17 +1,15 @@
 ---
 - name: Setup developer workstation
   hosts: all
-  become: yes
-  vars_files:
-    - ../vars/main.yml
+  become: true
 
-# Add additional roles as needed
-roles:
-  - common
-  - git
-  - podman
-  - python
-  - nodejs
-  - vscode
-  - slack
-  - openshift
+  roles:
+    - role: common
+    - role: git
+    - role: podman
+    - role: python
+    - role: nodejs
+    - role: vscode
+    - role: slack
+    - role: openshift
+    # Add other roles as needed
