@@ -1,10 +1,11 @@
 ---
 - name: Install Python 3
-  yum:
+  ansible.builtin.dnf:
     name: python3
     state: present
 
 - name: Install pip
-  command: python3 -m ensurepip
+  ansible.builtin.command:
+    cmd: python3 -m ensurepip
   args:
     creates: /usr/local/bin/pip3
