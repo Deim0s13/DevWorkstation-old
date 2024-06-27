@@ -1,0 +1,15 @@
+---
+- name: Setup developer workstation
+  hosts: all
+  become: true
+
+  roles:
+    - common
+    - git
+    - podman
+    - python
+    - nodejs
+    - vscode
+    - lack
+    - openshift
+    # Add other roles as needed
