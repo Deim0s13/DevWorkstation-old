@@ -1,5 +1,39 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: common
+  tasks:
+    - name: Install Python 3 and necessary packages
+      ansible.builtin.package:
+        name:
+          - python3
+          - libselinux-python3
+        state: present
+      become: true
+
+    - name: Ensure SELinux packages are installed
+      ansible.builtin.package:
+        name: libselinux-utils
+        state: present
+      become: true
+
+    - name: Ensure SELinux is set to enforcing mode
+      ansible.posix.selinux:
+        policy: targeted
+        state: enforcing
+      become: true
+
+    - name: Install necessary dependencies
+      ansible.builtin.package:
+        name: python3-dnf
+        state: present
+      become: true
+
+    - name: Ensure all packages are up to date
+      ansible.builtin.dnf:
+        name: "*"
+        state: present
+      become: true
+
+    - name: Include common role
+      ansible.builtin.include_role:
+        name: common

@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: common
+  namespace: devworkstations
+  author: Patrick Leathen
+  description: A common role for my project
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+        - "7"
+  galaxy_tags: []
+dependencies: []
